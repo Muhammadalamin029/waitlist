@@ -215,7 +215,7 @@ function Form() {
             className="bg-[#dcd6ec99] mb-3 border-b-[#a7abad] hover:border-t-[#a7abad] hover:border-b-black focus:outline-none focus:border-t-white focus:border-b-black focus:bg-white cursor-pointer border-solid border-[1px] rounded-md px-5 py-1 md:py-2 w-full"
             required
             name="contactPhone"
-            placeholder="Enter email address"
+            placeholder="Enter phone number"
           />
         </div>
         <div className="">
@@ -232,56 +232,64 @@ function Form() {
             placeholder="What is the approximate size of your farm (in, plots, acres or hectares e.g., 2-7 acres, less than 2 acres, more than 20 acres, etc."
           />
         </div>
-        <div className="">
-          <div className="w-full">
-            <label className="font-bold">Types of Produce</label>
-            <div className="relative flex items-center flex-wrap gap-2 p-2 mt-2 border rounded border-gray-300 focus-within:ring-2 focus-within:ring-blue-500">
-              {tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded"
-                >
-                  {tag}
-                  <button
-                    className="ml-2 text-gray-500 hover:text-red-500"
-                    onClick={() => removeTag(tag)}
+        <div className="w-full">
+          <label className="font-bold">Types of Produce</label>
+          <div className="relative flex items-center flex-wrap gap-2 p-2 mt-2 border rounded border-gray-300 focus-within:ring-2 focus-within:ring-blue-500">
+            {tags.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                {tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded"
                   >
-                    ×
-                  </button>
-                </span>
-              ))}
-              <input
-                type="text"
-                value={inputValue}
-                onChange={handleInput}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addTag(inputValue);
-                  }
-                }}
-                placeholder="What types of fruits and vegetables do you grow on your farm?"
-                className="flex-grow border-none h-10 w-full outline-none focus:ring-0"
-              />
-              {filteredSuggestions.length > 0 && (
-                <ul className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg z-10">
-                  {filteredSuggestions.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      className="px-3 py-2 hover:bg-blue-100 cursor-pointer"
-                      onClick={() => handleSuggestionClick(suggestion)}
+                    {tag}
+                    <button
+                      className="ml-2 text-gray-500 hover:text-red-500"
+                      onClick={() => removeTag(tag)}
                     >
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <p className="mt-2 text-sm text-gray-500">
-              Indicate in the input field above if you don't see your category
-              here.
-            </p>
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInput}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addTag(inputValue);
+                }
+              }}
+              placeholder={
+                tags.length === 0
+                  ? "What types of fruits and vegetables do you grow on your farm?"
+                  : ""
+              }
+              className={`flex-grow border-none h-10 outline-none focus:ring-0 ${
+                tags.length > 0 ? "placeholder-transparent" : ""
+              }`}
+            />
+            {filteredSuggestions.length > 0 && (
+              <ul className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg z-10">
+                {filteredSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="px-3 py-2 hover:bg-blue-100 cursor-pointer"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
+          <p className="mt-2 text-sm text-gray-500">
+            Indicate in the input field above if you don't see your category
+            here.
+          </p>
         </div>
         <div className="">
           <label htmlFor="" className="font-bold">
@@ -329,20 +337,24 @@ function Form() {
         <div className="w-full">
           <label className="font-bold">Types of Produce</label>
           <div className="relative flex items-center flex-wrap gap-2 p-2 mt-2 border rounded border-gray-300 focus-within:ring-2 focus-within:ring-blue-500">
-            {tags2.map((tag, index) => (
-              <span
-                key={index}
-                className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded"
-              >
-                {tag}
-                <button
-                  className="ml-2 text-gray-500 hover:text-red-500"
-                  onClick={() => removeTag2(tag)}
-                >
-                  ×
-                </button>
-              </span>
-            ))}
+            {tags2.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                {tags2.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center bg-gray-200 text-gray-700 px-2 py-1 rounded"
+                  >
+                    {tag}
+                    <button
+                      className="ml-2 text-gray-500 hover:text-red-500"
+                      onClick={() => removeTag2(tag)}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
             <input
               type="text"
               value={inputValue2}
@@ -353,8 +365,14 @@ function Form() {
                   addTag2(inputValue2);
                 }
               }}
-              placeholder="Do you offer any additional services or product to your farm?"
-              className="flex-grow border-none h-10 w-full outline-none focus:ring-0"
+              placeholder={
+                tags2.length === 0
+                  ? "Do you offer any additional services or products on your farm?"
+                  : ""
+              }
+              className={`flex-grow border-none h-10 outline-none focus:ring-0 ${
+                tags2.length > 0 ? "placeholder-transparent" : ""
+              }`}
             />
             {filteredSuggestions2.length > 0 && (
               <ul className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg z-10">
@@ -406,9 +424,9 @@ function Form() {
         <label className="font-bold" htmlFor="">
           Update and Notifications
         </label>
-        <div className="">
+        <div className=" flex items-center">
           <input
-            className="mt-3"
+            className=""
             type="checkbox"
             name="update"
             id="update-check"
