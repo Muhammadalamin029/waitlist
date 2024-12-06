@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "flowbite/dist/flowbite.css";
-
 .nav {
   background: rgb(244, 244, 244);
 }
